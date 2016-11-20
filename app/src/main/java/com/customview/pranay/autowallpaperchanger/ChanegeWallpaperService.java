@@ -69,12 +69,10 @@ public class ChanegeWallpaperService extends Service{
             Random random = new Random();
             int number = random.nextInt(2);
 
-            WallpaperManager myWallpaperManager
-                    = WallpaperManager.getInstance(getApplicationContext());
+            WallpaperManager myWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
             try {
                 myWallpaperManager.setResource(images[number]);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

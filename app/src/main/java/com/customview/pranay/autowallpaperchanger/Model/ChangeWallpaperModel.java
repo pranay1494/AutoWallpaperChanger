@@ -1,8 +1,5 @@
 package com.customview.pranay.autowallpaperchanger.Model;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 import com.customview.pranay.autowallpaperchanger.R;
 
 import java.util.ArrayList;
@@ -14,10 +11,12 @@ import java.util.List;
 
 public class ChangeWallpaperModel {
 
-    private List<Bitmap> images = new ArrayList<>();
+    private List<String> images = new ArrayList<>();
     public static ChangeWallpaperModel changeWallpaperModel;
 
     private ChangeWallpaperModel() {
+        images.add("addimage");
+
     }
 
     public static ChangeWallpaperModel getInstance(){
@@ -29,11 +28,11 @@ public class ChangeWallpaperModel {
         }
     }
 
-    public List<Bitmap> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<Bitmap> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 
@@ -41,11 +40,11 @@ public class ChangeWallpaperModel {
         images.clear();
     }
 
-    public void addToList(Bitmap id){
+    public void addToList(String id){
         images.add(id);
     }
 
-    public void removeFromLList(int position){
+    public void removeFromList(int position){
         if(!images.isEmpty()&&images.size()>1){
             images.remove(position);
         }
