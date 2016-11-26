@@ -25,6 +25,13 @@ public class ChangeWallpaperModel {
         return changeWallpaperModel;
     }
 
+    public void setInstance(ChangeWallpaperModel instance){
+        if(changeWallpaperModel==null){
+            changeWallpaperModel = new ChangeWallpaperModel();
+        }
+        changeWallpaperModel = instance;
+    }
+
     public List<String> getImages() {
         return images;
     }

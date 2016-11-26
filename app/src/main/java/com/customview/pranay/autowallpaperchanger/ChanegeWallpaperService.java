@@ -3,6 +3,7 @@ package com.customview.pranay.autowallpaperchanger;
 import android.app.Service;
 import android.app.WallpaperManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.customview.pranay.autowallpaperchanger.Model.ChangeWallpaperModel;
+import com.google.gson.Gson;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,7 +30,8 @@ public class ChanegeWallpaperService extends Service{
     Timer timer;
     private long currentTime = 0;
     private Handler handler;
-    private Integer images[]={R.drawable.image2,R.drawable.image1};
+    private SharedPreferences pref;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -68,6 +71,14 @@ public class ChanegeWallpaperService extends Service{
             bundle.putString("CURRENT_TIME",String.valueOf(time));
             message.setData(bundle);
             handler.sendMessage(message);
+
+            pref = getApplicationContext().getSharedPreferences("MODAL_PREF", MODE_PRIVATE);
+            String modalString = pref.getString("MODAL_STRING",null);
+            ChangeWallpaperModel changeWallpaperModel = ChangeWallpaperModel.getInstance();
+            if(modalString!=null){
+                changeWallpaperModel = new Gson().fromJson(modalString,ChangeWallpaperModel.class);
+                ChangeWallpaperModel.getInstance().setInstance(changeWallpaperModel);
+            }
 
             int max = ChangeWallpaperModel.getInstance().getImages().size();
             Random random = new Random();

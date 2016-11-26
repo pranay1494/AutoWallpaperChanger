@@ -2,6 +2,7 @@ package com.customview.pranay.autowallpaperchanger;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.customview.pranay.autowallpaperchanger.Adapters.GridViewAdapter;
 import com.customview.pranay.autowallpaperchanger.Model.ChangeWallpaperModel;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GridViewAdapter.SelectNewWallpaper {
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.S
     private RecyclerView recyclerView;
     private GridViewAdapter gridViewAdapter;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.S
         recyclerView = (RecyclerView) findViewById(R.id.recWallpaper);
 
         startService(new Intent(this,ChanegeWallpaperService.class));
+
+        pref = getApplicationContext().getSharedPreferences("MODAL_PREF", MODE_PRIVATE);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2, LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -64,8 +69,16 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.S
             ChangeWallpaperModel.getInstance().addToList(picturePath);
             cursor.close();
             gridViewAdapter.notifyDataSetChanged();
+            putDatatoSharedPrefs();
         }
     }
+
+    private void putDatatoSharedPrefs() {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("MODAL_STRING",new Gson().toJson(ChangeWallpaperModel.getInstance()));
+        editor.commit();
+    }
+
     private void insertPermissioonToReadWrite() {
         int hasWritePermission = ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
@@ -84,12 +97,10 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.S
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted
                     Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, RESULT_LOAD_IMAGE);
 
                 } else {
-                    // Permission Denied
                     Toast.makeText(MainActivity.this, "Storage permission denied", Toast.LENGTH_SHORT)
                             .show();
                 }
