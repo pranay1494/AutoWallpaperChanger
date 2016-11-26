@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.customview.pranay.autowallpaperchanger.Model.ChangeWallpaperModel;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
@@ -35,7 +38,7 @@ public class ChanegeWallpaperService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         timer = new Timer();
-        timer.schedule(new TimerTaskHelper(),2000,3000);
+        timer.schedule(new TimerTaskHelper(),2000,7000);
         currentTime = System.currentTimeMillis();
         Log.d("time",String.valueOf(System.currentTimeMillis()));
 
@@ -66,14 +69,16 @@ public class ChanegeWallpaperService extends Service{
             message.setData(bundle);
             handler.sendMessage(message);
 
+            int max = ChangeWallpaperModel.getInstance().getImages().size();
             Random random = new Random();
-            int number = random.nextInt(2);
-
-            WallpaperManager myWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-            try {
-                myWallpaperManager.setResource(images[number]);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(max>1) {
+                int number = random.nextInt(max-1)+1;
+                WallpaperManager myWallpaperManager = WallpaperManager.getInstance(getApplicationContext());
+                try {
+                    myWallpaperManager.setStream(new FileInputStream(ChangeWallpaperModel.getInstance().getImages().get(number)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

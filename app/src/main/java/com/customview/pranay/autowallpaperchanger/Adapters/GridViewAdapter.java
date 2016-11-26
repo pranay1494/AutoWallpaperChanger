@@ -62,7 +62,7 @@ public class GridViewAdapter extends RecyclerView.Adapter {
             }
             case WALLPAPER: {
                 ViewHolder viewHolder = (ViewHolder) holder;
-                viewHolder.wallpaperThumb.setImageBitmap(getScaledBitmap(ChangeWallpaperModel.getInstance().getImages().get(position), 800, 800));
+                viewHolder.wallpaperThumb.setImageBitmap(getScaledBitmap(ChangeWallpaperModel.getInstance().getImages().get(position), 150, 150));
                 break;
             }
         }

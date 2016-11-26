@@ -12,20 +12,17 @@ import java.util.List;
 public class ChangeWallpaperModel {
 
     private List<String> images = new ArrayList<>();
-    public static ChangeWallpaperModel changeWallpaperModel;
+    public static ChangeWallpaperModel changeWallpaperModel =null;
 
     private ChangeWallpaperModel() {
         images.add("addimage");
-
     }
 
     public static ChangeWallpaperModel getInstance(){
-        if(changeWallpaperModel!=null){
-            return changeWallpaperModel;
+        if(changeWallpaperModel==null){
+            changeWallpaperModel = new ChangeWallpaperModel();
         }
-        else{
-            return new ChangeWallpaperModel();
-        }
+        return changeWallpaperModel;
     }
 
     public List<String> getImages() {
