@@ -66,10 +66,14 @@ public class MainActivity extends AppCompatActivity implements GridViewAdapter.S
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
-            ChangeWallpaperModel.getInstance().addToList(picturePath);
             cursor.close();
-            gridViewAdapter.notifyDataSetChanged();
-            putDatatoSharedPrefs();
+            if(picturePath!=null) {
+                ChangeWallpaperModel.getInstance().addToList(picturePath);
+                gridViewAdapter.notifyDataSetChanged();
+                putDatatoSharedPrefs();
+            }else {
+                Toast.makeText(this, "pick some other image this image cannot be selected", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

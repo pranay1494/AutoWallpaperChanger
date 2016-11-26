@@ -9,6 +9,9 @@
         android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="150dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <ImageView
             android:id="@+id/wallpaperImage"
             android:layout_width="match_parent"
@@ -16,6 +19,12 @@
             android:src="@drawable/image2"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"/>
+        <com.customview.pranay.autowallpaperchanger.CustomViews.UpperTriangle
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:visibility="visible"/>
+        </FrameLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
