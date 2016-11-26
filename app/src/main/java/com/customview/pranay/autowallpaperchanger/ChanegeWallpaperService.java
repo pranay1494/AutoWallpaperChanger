@@ -38,7 +38,7 @@ public class ChanegeWallpaperService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         timer = new Timer();
-        timer.schedule(new TimerTaskHelper(),2000,7000);
+        timer.schedule(new TimerTaskHelper(),2000,10000);
         currentTime = System.currentTimeMillis();
         Log.d("time",String.valueOf(System.currentTimeMillis()));
 

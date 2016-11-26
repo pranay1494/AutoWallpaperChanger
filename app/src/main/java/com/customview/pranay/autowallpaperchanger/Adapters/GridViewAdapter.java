@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.customview.pranay.autowallpaperchanger.ChanegeWallpaperService;
 import com.customview.pranay.autowallpaperchanger.MainActivity;
@@ -62,7 +63,14 @@ public class GridViewAdapter extends RecyclerView.Adapter {
             }
             case WALLPAPER: {
                 ViewHolder viewHolder = (ViewHolder) holder;
-                viewHolder.wallpaperThumb.setImageBitmap(getScaledBitmap(ChangeWallpaperModel.getInstance().getImages().get(position), 150, 150));
+                Bitmap bitmap = getScaledBitmap(ChangeWallpaperModel.getInstance().getImages().get(position), 150, 150);
+                if (bitmap==null){
+                    Toast.makeText(context, "cannot use this image sorry please try some other image", Toast.LENGTH_SHORT).show();
+                    ChangeWallpaperModel.getInstance().removeFromList(position);
+                }
+                else {
+                    viewHolder.wallpaperThumb.setImageBitmap(bitmap);
+                }
                 break;
             }
         }
