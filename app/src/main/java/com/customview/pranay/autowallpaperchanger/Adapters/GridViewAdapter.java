@@ -62,7 +62,7 @@ public class GridViewAdapter extends RecyclerView.Adapter {
                 break;
             }
             case WALLPAPER: {
-                ViewHolder viewHolder = (ViewHolder) holder;
+                final ViewHolder viewHolder = (ViewHolder) holder;
                 Bitmap bitmap = getScaledBitmap(ChangeWallpaperModel.getInstance().getImages().get(position), 150, 150);
                 if (bitmap==null){
                     Toast.makeText(context, "cannot use this image sorry please try some other image", Toast.LENGTH_SHORT).show();
@@ -71,6 +71,16 @@ public class GridViewAdapter extends RecyclerView.Adapter {
                 else {
                     viewHolder.wallpaperThumb.setImageBitmap(bitmap);
                 }
+                viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(viewHolder.upperTriangle.getVisibility()==View.VISIBLE){
+                            viewHolder.upperTriangle.setVisibility(View.GONE);
+                        }else {
+                            viewHolder.upperTriangle.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
                 break;
             }
         }
@@ -125,11 +135,13 @@ public class GridViewAdapter extends RecyclerView.Adapter {
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         ImageView wallpaperThumb;
+        View upperTriangle;
 
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             wallpaperThumb = (ImageView) itemView.findViewById(R.id.wallpaperImage);
+            upperTriangle = itemView.findViewById(R.id.upperTriangle);
         }
     }
 
